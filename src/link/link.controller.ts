@@ -27,10 +27,12 @@ export class LinkController {
   ): Promise<unknown> {
     console.log('Entrou aqui...');
     let link = await this.linkService.getByUrl(url);
+    console.log('Entrou aqui... 2');
 
     if (link) return `Essa URL ja foi encurtada.`;
 
     link = await this.linkService.create(url);
+    console.log('Entrou aqui... 3');
 
     return response.json({
       link: `${process.env.BASE_URL}/${link.code}`,

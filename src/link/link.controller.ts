@@ -25,6 +25,7 @@ export class LinkController {
     @Res() response: Response,
     @Body('url') url: string,
   ): Promise<unknown> {
+    console.log('Entrou aqui...');
     let link = await this.linkService.getByUrl(url);
 
     if (link) return `Essa URL ja foi encurtada.`;

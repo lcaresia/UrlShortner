@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot('mongodb://localhost:27019/urlshortner', {
+    MongooseModule.forRoot(process.env.MONGO_URI, {
       useNewUrlParser: true,
     }),
     LinkModule,

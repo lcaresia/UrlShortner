@@ -6,19 +6,27 @@ import { Response } from 'express';
 export class LinkController {
   constructor(private readonly linkService: LinkService) { }
 
+  cached: { [key: string]: string } = {};
+
   @Get(`:code`)
   async get(
     @Res() response: Response,
     @Param('code') code: string,
   ): Promise<unknown> {
-    const link = await this.linkService.getByCode(code);
+    let url = this.cached[code];
 
-    if (!link)
+    if (!url) {
+      const link = await this.linkService.getByCode(code);
+
+      url = link.url;
+    }
+
+    if (!url)
       return response.send(`Nao encontramos nenhuma URL para esse codigo.`);
 
     this.linkService.increaseView(code);
 
-    return response.redirect(link.url);
+    return response.redirect(url);
   }
 
   @Post()

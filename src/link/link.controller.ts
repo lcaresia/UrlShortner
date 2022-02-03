@@ -13,7 +13,8 @@ export class LinkController {
   ): Promise<unknown> {
     const link = await this.linkService.getByCode(code);
 
-    if (!link) return `Nao encontramos nenhuma URL para esse codigo.`;
+    if (!link)
+      return response.send(`Nao encontramos nenhuma URL para esse codigo.`);
 
     this.linkService.increaseView(code);
 
@@ -25,14 +26,11 @@ export class LinkController {
     @Res() response: Response,
     @Body('url') url: string,
   ): Promise<unknown> {
-    console.log('Entrou aqui...');
     let link = await this.linkService.getByUrl(url);
-    console.log('Entrou aqui... 2');
 
-    if (link) return `Essa URL ja foi encurtada.`;
+    if (link) return response.send(`Essa URL ja foi encurtada.`);
 
     link = await this.linkService.create(url);
-    console.log('Entrou aqui... 3');
 
     return response.json({
       link: `${process.env.BASE_URL}/${link.code}`,
@@ -47,7 +45,7 @@ export class LinkController {
   ): Promise<unknown> {
     const link = await this.linkService.getByUuid(uuid);
 
-    if (!link) return `Esse link nao foi encontrado.`;
+    if (!link) return response.send(`Esse link nao foi encontrado.`);
 
     return response.json({
       views: link.views,

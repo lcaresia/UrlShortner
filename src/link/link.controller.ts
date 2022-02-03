@@ -34,11 +34,7 @@ export class LinkController {
     @Res() response: Response,
     @Body('url') url: string,
   ): Promise<unknown> {
-    let link = await this.linkService.getByUrl(url);
-
-    if (link) return response.send(`Essa URL ja foi encurtada.`);
-
-    link = await this.linkService.create(url);
+    const link = await this.linkService.create(url);
 
     return response.json({
       link: `${process.env.BASE_URL}/${link.code}`,

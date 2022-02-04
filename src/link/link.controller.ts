@@ -26,7 +26,11 @@ export class LinkController {
 
     this.linkService.increaseView(code);
 
-    return response.redirect(url);
+    return response.redirect(
+      url.includes('https://') || url.includes('http://')
+        ? url
+        : `https://${url}`,
+    );
   }
 
   @Post()

@@ -42,7 +42,8 @@ export class LinkController {
 
     return response.json({
       link: `${process.env.BASE_URL}/${link.code}`,
-      info: `${process.env.BASE_URL}/info/${link.uuid}`,
+      infoUuidUrl: `${process.env.BASE_URL}/info/${link.uuid}`,
+      infoUuid: link.uuid,
     });
   }
 
